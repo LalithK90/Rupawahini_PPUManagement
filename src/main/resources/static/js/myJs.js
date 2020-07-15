@@ -38,7 +38,8 @@ $(document).ready(function () {
 
 // regex
 let nicRegex = /^([0-9]{9}[vV|xX])|^([0-9]{12})$/;
-let mobileRegex = /^([0][7][\d]{8}$)|^([7][\d]{8})$/;
+//let mobileRegex = /^([0][7][\d]{8}$)|^([7][\d]{8})$/;
+let mobileRegex = /^(0(7(0|1|4|5|6|7|8))[0-9]{8}$)|^([7][\d]{8})$/;
 let landRegex = /^0((11)|(2(1|[3-7]))|(3[1-8])|(4(1|5|7))|(5(1|2|4|5|7))|(6(3|[5-7]))|([8-9]1))([2-4]|5|7|9)[0-9]{6}$/;
 let nameRegex = /^[a-zA-Z .-]{5}[ a-zA-Z.-]+$/;
 let numberRegex = /^([eE][hH][sS][\d]+)$/;

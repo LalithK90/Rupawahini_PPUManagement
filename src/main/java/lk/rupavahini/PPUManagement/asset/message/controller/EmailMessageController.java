@@ -78,7 +78,7 @@ public class EmailMessageController {
         emailMessageDb.getEmployees().forEach(
                 employee ->
                         emailService.sendEmail(
-                                employee.getOfficeEmail(), emailMessageDbSubject, emailMessageDbMessage));
+                                employee.getEmail(), emailMessageDbSubject, emailMessageDbMessage));
 
         return "redirect:/emailMessage/add";
     }

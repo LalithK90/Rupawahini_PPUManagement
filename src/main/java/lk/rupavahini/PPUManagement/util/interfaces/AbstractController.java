@@ -7,6 +7,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
+
 public interface AbstractController<E, I> {
     /**
      * 1. Find All relevant things belongs provided entity {}
