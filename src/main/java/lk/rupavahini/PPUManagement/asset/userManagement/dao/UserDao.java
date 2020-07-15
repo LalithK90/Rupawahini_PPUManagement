@@ -20,4 +20,5 @@ public interface UserDao extends JpaRepository<User, Integer > {
 
     User findByEmployee(Employee employee);
 
-   }
+
+}
