@@ -1,10 +1,7 @@
 package lk.rupavahini.PPUManagement.asset.employee.controller;
 
-
-import lk.rupavahini.PPUManagement.asset.commonAsset.model.Enum.BloodGroup;
 import lk.rupavahini.PPUManagement.asset.commonAsset.model.Enum.CivilStatus;
 import lk.rupavahini.PPUManagement.asset.commonAsset.model.Enum.Gender;
-import lk.rupavahini.PPUManagement.asset.commonAsset.model.Enum.Title;
 import lk.rupavahini.PPUManagement.asset.commonAsset.service.CommonService;
 import lk.rupavahini.PPUManagement.asset.employee.entity.Employee;
 import lk.rupavahini.PPUManagement.asset.employee.entity.EmployeeFiles;
@@ -53,10 +50,8 @@ public class EmployeeController {
 
     // Common things for an employee add and update
     private String commonThings(Model model) {
-        model.addAttribute("title", Title.values());
         model.addAttribute("gender", Gender.values());
         model.addAttribute("designation", Designation.values());
-        model.addAttribute("bloodGroup", BloodGroup.values());
         model.addAttribute("civilStatus", CivilStatus.values());
         model.addAttribute("employeeStatus", EmployeeStatus.values());
 
@@ -108,7 +103,7 @@ public class EmployeeController {
     }
 
     //Employee add and update
-    @PostMapping(value = {"/add", "/update"})
+    @PostMapping(value = {"/save", "/update"})
     public String addEmployee(@Valid @ModelAttribute Employee employee, BindingResult result, Model model
     ) {
 
@@ -119,7 +114,7 @@ public class EmployeeController {
         }
         try {
             employee.setMobileOne(commonService.commonMobileNumberLengthValidator(employee.getMobileOne()));
-            employee.setMobileTwo(commonService.commonMobileNumberLengthValidator(employee.getMobileTwo()));
+
             //after save employee files and save employee
             employeeService.persist(employee);
 
@@ -132,25 +127,25 @@ public class EmployeeController {
                     userService.persist(user);
                 }
             }
-            //save employee images file
-            for (MultipartFile file : employee.getFiles()) {
-                if (file.getOriginalFilename() != null) {
-                    EmployeeFiles employeeFiles = employeeFilesService.findByName(file.getOriginalFilename());
+            //save employee img file
+
+                if (employee.getFile().getOriginalFilename() != null) {
+                    EmployeeFiles employeeFiles = employeeFilesService.findByName(employee.getFile().getOriginalFilename());
                     if (employeeFiles != null) {
                         // update new contents
-                        employeeFiles.setPic(file.getBytes());
+                        employeeFiles.setPic(employee.getFile().getBytes());
                         // Save all to database
                     } else {
-                        employeeFiles = new EmployeeFiles(file.getOriginalFilename(),
-                                file.getContentType(),
-                                file.getBytes(),
+                        employeeFiles = new EmployeeFiles(employee.getFile().getOriginalFilename(),
+                                employee.getFile().getContentType(),
+                                employee.getFile().getBytes(),
                                 employee.getNic().concat("-" + LocalDateTime.now()),
                                 UUID.randomUUID().toString().concat("employee"));
                         employeeFiles.setEmployee(employee);
                     }
                     employeeFilesService.persist(employeeFiles);
                 }
-            }
+
             return "redirect:/employee";
 
         } catch (Exception e) {
@@ -181,13 +176,7 @@ public class EmployeeController {
     //````````````````````````````````````````````````````````````````````````````//
 //----> EmployeeWorkingPlace - details management - start <----//
 
-    //Send form to add working place before find employee
-    @GetMapping(value = "/workingPlace")
-    public String addEmployeeWorkingPlaceForm(Model model) {
-        model.addAttribute("employee", new Employee());
-        model.addAttribute("employeeDetailShow", false);
-        return "employeeWorkingPlace/addEmployeeWorkingPlace";
-    }
+
 
     //Send a searched employee to add working place
 /*

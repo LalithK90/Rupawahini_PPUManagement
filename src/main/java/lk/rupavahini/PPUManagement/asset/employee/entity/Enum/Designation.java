@@ -1,5 +1,6 @@
 package lk.rupavahini.PPUManagement.asset.employee.entity.Enum;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,7 +15,6 @@ public enum Designation {
     CLA("Casset library admin"),
     SPONSOR("Who spend money for programme");
 
-
-
     private final String designation;
 }
+

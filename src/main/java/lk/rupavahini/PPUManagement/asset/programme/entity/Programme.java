@@ -34,20 +34,15 @@ public class Programme extends AuditEntity {
     @Size(min = 5, message = "Enter Programme Name ")
     private String programmeName;
 
-
-    private Integer programmeId;
-
     @Size(min = 5, message = "Enter Producer Name ")
     private String producerName;
 
     @Size(min = 5, message = "Enter Sponsor Name ")
     private String sponsorName;
 
-    @Size(message = "Enter Broadcasting Date")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate broadcastingDate;
 
-    @Size(message = "Enter Broadcasting Time ")
     private String broadcastingTime;
 
     private String code;
@@ -71,13 +66,6 @@ public class Programme extends AuditEntity {
     @ManyToMany(mappedBy = "employees")
     private List<EmailMessage> emailMessages;
 
-    @Transient
-    private List<MultipartFile> files = new ArrayList<>();
 
-    @Transient
-    private List<String> removeImages = new ArrayList<>();
-
-    @Transient
-    private List<FileInfo> fileInfos = new ArrayList<>();
 
 }
