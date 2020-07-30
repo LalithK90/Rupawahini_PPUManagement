@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonFilter("Supplier")
+@JsonFilter("Clibrary")
 @ToString
 public class Clibrary extends AuditEntity {
 

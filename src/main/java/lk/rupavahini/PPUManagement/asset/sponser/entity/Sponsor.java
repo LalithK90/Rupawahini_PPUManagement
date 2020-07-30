@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonFilter("Supplier")
+@JsonFilter("Sponsor")
 @ToString
 public class Sponsor extends AuditEntity {
 
