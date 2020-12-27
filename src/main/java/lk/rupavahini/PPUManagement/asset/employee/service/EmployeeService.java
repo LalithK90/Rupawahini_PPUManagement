@@ -1,6 +1,8 @@
 package lk.rupavahini.PPUManagement.asset.employee.service;
 
 
+
+import lk.rupavahini.PPUManagement.asset.commonAsset.model.Enum.LiveDead;
 import lk.rupavahini.PPUManagement.asset.employee.dao.EmployeeDao;
 import lk.rupavahini.PPUManagement.asset.employee.entity.Employee;
 import lk.rupavahini.PPUManagement.util.interfaces.AbstractService;
@@ -15,8 +17,8 @@ import java.util.List;
 
 @Service
 // spring transactional annotation need to tell spring to this method work through the project
-@CacheConfig(cacheNames = "employee")
-public class EmployeeService implements AbstractService<Employee, Integer> {
+@CacheConfig( cacheNames = "employee" )
+public class EmployeeService implements AbstractService< Employee, Integer > {
 
     private final EmployeeDao employeeDao;
 
@@ -26,7 +28,7 @@ public class EmployeeService implements AbstractService<Employee, Integer> {
     }
 
     @Cacheable
-    public List<Employee> findAll() {
+    public List< Employee > findAll() {
         return employeeDao.findAll();
     }
 
@@ -35,26 +37,34 @@ public class EmployeeService implements AbstractService<Employee, Integer> {
         return employeeDao.getOne(id);
     }
 
-    @Caching(evict = {@CacheEvict(value = "employee", allEntries = true)},
-            put = {@CachePut(value = "employee", key = "#employee.id")})
+    @Caching( evict = {@CacheEvict( value = "employee", allEntries = true )},
+            put = {@CachePut( value = "employee", key = "#employee.id" )} )
     @Transactional
     public Employee persist(Employee employee) {
+        if(employee.getId()==null){
+            employee.setLiveDead(LiveDead.ACTIVE);}
         return employeeDao.save(employee);
     }
 
-    @CacheEvict(allEntries = true)
+    public boolean delete(Integer id) {
+        Employee employee =  employeeDao.getOne(id);
+        employee.setLiveDead(LiveDead.STOP);
+        employeeDao.save(employee);
+        return false;
+    }
+   /* @CacheEvict( allEntries = true )
     public boolean delete(Integer id) {
         employeeDao.deleteById(id);
         return false;
     }
-
+*/
     @Cacheable
-    public List<Employee> search(Employee employee) {
+    public List< Employee > search(Employee employee) {
         ExampleMatcher matcher = ExampleMatcher
                 .matching()
                 .withIgnoreCase()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-        Example<Employee> employeeExample = Example.of(employee, matcher);
+        Example< Employee > employeeExample = Example.of(employee, matcher);
         return employeeDao.findAll(employeeExample);
     }
 
@@ -71,4 +81,6 @@ public class EmployeeService implements AbstractService<Employee, Integer> {
     public Employee findByNic(String nic) {
         return employeeDao.findByNic(nic);
     }
+
+
 }

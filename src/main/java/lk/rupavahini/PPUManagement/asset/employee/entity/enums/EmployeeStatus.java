@@ -1,4 +1,4 @@
-package lk.rupavahini.PPUManagement.asset.employee.entity.Enum;
+package lk.rupavahini.PPUManagement.asset.employee.entity.enums;
 
 public enum EmployeeStatus {
     WORKING("Working"),
